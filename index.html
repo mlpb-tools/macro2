@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Schéma Organisationnel Territorial</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .territory-block {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .territory-block:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        .dashed-block {
+            border: 2px dashed #9ca3af;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 10px,
+                rgba(156, 163, 175, 0.1) 10px,
+                rgba(156, 163, 175, 0.1) 20px
+            );
+        }
+        .modal {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+        .modal.active {
+            display: flex;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            margin: 0 auto 16px;
+        }
+        .specialty-checkbox {
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #d1d5db;
+            border-radius: 4px;
+            position: relative;
+            cursor: pointer;
+        }
+        .specialty-checkbox:checked {
+            background-color: #3b82f6;
+            border-color: #3b82f6;
+        }
+        .specialty-checkbox:checked::after {
+            content: '✓';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-slate-100 to-blue-50 min-h-screen p-6">
+    <div class="max-w-6xl mx-auto">
+        <!-- Direction -->
+        <div class="flex justify-center mb-12">
+            <div class="territory-block bg-gradient-to-r from-gray-700 to-gray-900 text-white p-6 rounded-xl shadow-lg w-80 text-center" onclick="openModal('direction')">
+                <h3 class="text-xl font-bold mb-2">🏢 DIRECTION</h3>
+                <p class="text-gray-300 text-sm">Cliquez pour voir le profil</p>
+            </div>
+        </div>
+
+        <!-- Niveau principal -->
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-6 mb-12">
+            <!-- Responsable labellisation -->
+            <div class="flex flex-col items-center">
+                <div class="territory-block bg-gradient-to-r from-emerald-500 to-teal-600 text-white p-6 rounded-xl shadow-lg w-full text-center" onclick="openModal('labellisation')">
+                    <h3 class="text-lg font-bold mb-2">📋 RESPONSABLE</h3>
+                    <p class="text-sm mb-1">Labellisation et</p>
+                    <p class="text-sm">Coaching Accompagnement</p>
+                </div>
+            </div>
+
+            <!-- Coordinateur Innovation -->
+            <div class="flex flex-col items-center">
+                <div class="territory-block bg-gradient-to-r from-purple-600 to-indigo-600 text-white p-6 rounded-xl shadow-lg w-full text-center" onclick="openModal('rio')">
+                    <h3 class="text-lg font-bold mb-2">🎯 COORDINATEUR</h3>
+                    <p class="text-sm mb-1">Innovation et</p>
+                    <p class="text-sm">Outillage</p>
+                </div>
+            </div>
+
+            <!-- Chargé de projet Citoyenneté -->
+            <div class="flex flex-col items-center">
+                <div class="territory-block bg-gradient-to-r from-blue-500 to-indigo-600 text-white p-6 rounded-xl shadow-lg w-full text-center" onclick="openModal('numerique')">
+                    <h3 class="text-lg font-bold mb-2">💻 CHARGÉ DE PROJET</h3>
+                    <p class="text-sm mb-1">Citoyenneté</p>
+                    <p class="text-sm">Numérique</p>
+                </div>
+            </div>
+
+            <!-- Coordinateur Transfrontalier -->
+            <div class="flex flex-col items-center">
+                <div class="territory-block dashed-block bg-white p-6 rounded-xl shadow-lg w-full text-center text-gray-700" onclick="openModal('transfrontalier')">
+                    <h3 class="text-lg font-bold mb-2">🌍 COORDINATEUR</h3>
+                    <p class="text-sm mb-1">Transfrontalier</p>
+                    <p class="text-sm text-gray-500">(Éventuel)</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Flèche Coordinateurs vers Ambassadeurs -->
+        <div class="flex justify-center mb-8">
+            <div class="bg-white rounded-xl px-6 py-4 shadow-lg border-2 border-blue-300 max-w-2xl">
+                <div class="text-center mb-3">
+                    <div class="flex items-center justify-center space-x-4 text-blue-700 font-semibold mb-2">
+                        <span>📤 <span class="font-bold text-lg uppercase tracking-wide">TRANSMETTRE</span></span>
+                        <span>•</span>
+                        <span>🎓 <span class="font-bold text-lg uppercase tracking-wide">FORMER</span></span>
+                        <span>•</span>
+                        <span>🧪 <span class="font-bold text-lg uppercase tracking-wide">TESTER</span></span>
+                    </div>
+                    <div class="bg-blue-50 rounded-lg px-4 py-2 border border-blue-200 space-y-2">
+                        <div class="text-blue-800 font-medium text-sm">
+                            📅 Réunion mensuelle des ambassadeurs
+                        </div>
+                        <div class="text-blue-600 text-xs">
+                            (30 min, en visio)
+                        </div>
+                        <div class="text-blue-800 font-medium text-sm">
+                            🎯 Réunions thématiques spécifiques
+                        </div>
+                        <div class="text-blue-800 font-medium text-sm">
+                            🤝 Sessions de formations partenaires
+                        </div>
+                        <div class="text-blue-800 font-medium text-sm">
+                            🌍 Sessions de formations internationales/transfrontalières
+                        </div>
+                        <div class="text-blue-800 font-medium text-sm">
+                            👥 Session de travail collaboratif mensuelle
+                        </div>
+                        <div class="text-blue-600 text-xs">
+                            (coordo, ambassadeurs, jeunes, conseillers selon besoins projets)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="flex justify-center mb-8">
+            <svg width="40" height="40" viewBox="0 0 40 40" class="text-blue-500">
+                <path d="M20 5 L20 30 M15 25 L20 30 L25 25" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </div>
+
+        <!-- Ambassadeurs territoriaux -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <!-- BAB Nord -->
+            <div class="territory-block bg-gradient-to-br from-blue-500 to-blue-700 text-white p-6 rounded-xl shadow-lg text-center" onclick="openModal('bab-nord')">
+                <h3 class="text-lg font-bold mb-2">🌊 AMBASSADEUR</h3>
+                <p class="text-blue-100 font-semibold">BAB NORD</p>
+            </div>
+
+            <!-- BAB Sud -->
+            <div class="territory-block bg-gradient-to-br from-orange-500 to-red-600 text-white p-6 rounded-xl shadow-lg text-center" onclick="openModal('bab-sud')">
+                <h3 class="text-lg font-bold mb-2">🏙️ AMBASSADEUR</h3>
+                <p class="text-orange-100 font-semibold">BAB SUD</p>
+            </div>
+
+            <!-- Sud Pays Basque -->
+            <div class="territory-block bg-gradient-to-br from-green-500 to-emerald-700 text-white p-6 rounded-xl shadow-lg text-center" onclick="openModal('sud-pb')">
+                <h3 class="text-lg font-bold mb-2">🌿 AMBASSADEUR</h3>
+                <p class="text-green-100 font-semibold">SUD PAYS BASQUE</p>
+            </div>
+
+            <!-- PBI -->
+            <div class="territory-block bg-gradient-to-br from-teal-500 to-cyan-700 text-white p-6 rounded-xl shadow-lg text-center" onclick="openModal('pbi')">
+                <h3 class="text-lg font-bold mb-2">⚡ AMBASSADEUR</h3>
+                <p class="text-teal-100 font-semibold">PBI</p>
+            </div>
+        </div>
+
+        <!-- Flèche Remonter vers Coordinateurs -->
+        <div class="flex justify-center mb-8">
+            <div class="bg-white rounded-full px-6 py-3 shadow-lg border-2 border-purple-300">
+                <span class="text-purple-700 font-semibold">📈 <span class="font-bold text-lg uppercase tracking-wide">REMONTER</span></span>
+            </div>
+        </div>
+        
+        <div class="flex justify-center mb-12">
+            <svg width="40" height="40" viewBox="0 0 40 40" class="text-purple-500">
+                <path d="M20 35 L20 10 M15 15 L20 10 L25 15" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </div>
+
+        <!-- Flèche vers le bas (Diffuser) -->
+        <div class="flex justify-center mb-8">
+            <svg width="40" height="40" viewBox="0 0 40 40" class="text-green-500">
+                <path d="M20 5 L20 30 M15 25 L20 30 L25 25" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </div>
+        
+        <div class="flex justify-center mb-8">
+            <div class="bg-white rounded-xl px-6 py-4 shadow-lg border-2 border-green-300 max-w-lg">
+                <div class="text-center">
+                    <div class="text-green-700 font-semibold mb-2">
+                        <span>📢 <span class="font-bold text-lg uppercase tracking-wide">DIFFUSER</span></span>
+                    </div>
+                    <div class="bg-green-50 rounded-lg px-4 py-2 border border-green-200">
+                        <div class="text-green-800 font-medium text-sm">
+                            📅 Réunion de territoire
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Conseillers -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+            <!-- Conseiller BAB Nord -->
+            <div class="territory-block bg-gradient-to-br from-blue-300 to-blue-500 text-white p-6 rounded-xl shadow-lg text-center" onclick="openModal('conseiller-bab-nord')">
+                <h3 class="text-lg font-bold mb-2">👥 CONSEILLERS</h3>
+                <p class="text-blue-100 font-semibold">BAB NORD</p>
+            </div>
+
+            <!-- Conseiller BAB Sud -->
+            <div class="territory-block bg-gradient-to-br from-orange-300 to-orange-500 text-white p-6 rounded-xl shadow-lg text-center" onclick="openModal('conseiller-bab-sud')">
+                <h3 class="text-lg font-bold mb-2">👥 CONSEILLERS</h3>
+                <p class="text-orange-100 font-semibold">BAB SUD</p>
+            </div>
+
+            <!-- Conseiller Sud Pays Basque -->
+            <div class="territory-block bg-gradient-to-br from-green-300 to-green-500 text-white p-6 rounded-xl shadow-lg text-center" onclick="openModal('conseiller-sud-pb')">
+                <h3 class="text-lg font-bold mb-2">👥 CONSEILLERS</h3>
+                <p class="text-green-100 font-semibold">SUD PAYS BASQUE</p>
+            </div>
+
+            <!-- Conseiller PBI -->
+            <div class="territory-block bg-gradient-to-br from-teal-300 to-teal-500 text-white p-6 rounded-xl shadow-lg text-center" onclick="openModal('conseiller-pbi')">
+                <h3 class="text-lg font-bold mb-2">👥 CONSEILLERS</h3>
+                <p class="text-teal-100 font-semibold">PBI</p>
+            </div>
+        </div>
+
+        <!-- Flèches vers l'externe -->
+        <div class="flex justify-center mb-8">
+            <div class="flex space-x-8">
+                <!-- Flèche gauche -->
+                <svg width="60" height="40" viewBox="0 0 60 40" class="text-amber-500">
+                    <path d="M5 20 L50 20 M45 15 L50 20 L45 25" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <!-- Flèche droite -->
+                <svg width="60" height="40" viewBox="0 0 60 40" class="text-amber-500">
+                    <path d="M55 20 L10 20 M15 15 L10 20 L15 25" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+        </div>
+
+        <!-- Section Vers l'externe -->
+        <div class="bg-gradient-to-r from-amber-100 to-orange-100 rounded-2xl p-8 shadow-lg border-2 border-amber-300">
+            <div class="text-center mb-6">
+                <h2 class="text-2xl font-bold text-amber-800 mb-4">🌐 VERS L'EXTERNE</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- Communication -->
+                    <div class="bg-white rounded-xl p-6 shadow-md border border-amber-200">
+                        <div class="text-center">
+                            <div class="text-amber-700 font-bold text-lg mb-3">
+                                📢 COMMUNICATION
+                            </div>
+                            <div class="text-amber-600 text-sm space-y-1">
+                                <div>• Médias locaux</div>
+                                <div>• Réseaux sociaux</div>
+                                <div>• Événements publics</div>
+                                <div>• Publications</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Valorisation -->
+                    <div class="bg-white rounded-xl p-6 shadow-md border border-amber-200">
+                        <div class="text-center">
+                            <div class="text-amber-700 font-bold text-lg mb-3">
+                                🏆 VALORISATION
+                            </div>
+                            <div class="text-amber-600 text-sm space-y-1">
+                                <div>• Retours d'expérience</div>
+                                <div>• Bonnes pratiques</div>
+                                <div>• Témoignages</div>
+                                <div>• Études d'impact</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Instances -->
+                    <div class="bg-white rounded-xl p-6 shadow-md border border-amber-200">
+                        <div class="text-center">
+                            <div class="text-amber-700 font-bold text-lg mb-3">
+                                🏛️ INSTANCES
+                            </div>
+                            <div class="text-amber-600 text-sm space-y-1">
+                                <div>• Régionales</div>
+                                <div>• Nationales</div>
+                                <div>• Européennes</div>
+                                <div>• Partenaires institutionnels</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Objectifs -->
+            <div class="bg-amber-50 rounded-xl p-6 border border-amber-200 mt-6">
+                <div class="text-center">
+                    <div class="text-amber-800 font-bold text-lg mb-3">
+                        🎯 OBJECTIFS STRATÉGIQUES
+                    </div>
+                    <div class="flex justify-center space-x-8">
+                        <div class="text-amber-700 font-semibold">
+                            📈 <span class="font-bold uppercase tracking-wide">DÉPLOIEMENT</span>
+                        </div>
+                        <div class="text-amber-700 font-semibold">
+                            🚀 <span class="font-bold uppercase tracking-wide">CHANGEMENT D'ÉCHELLE</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="modal" class="modal fixed inset-0 bg-black bg-opacity-50 justify-center items-center z-50">
+        <div class="bg-white rounded-2xl p-8 max-w-md w-full mx-4 max-h-[90vh] overflow-y-auto">
+            <div class="text-center mb-6">
+                <div id="modal-avatar" class="avatar"></div>
+                <h3 id="modal-title" class="text-2xl font-bold text-gray-800 mb-2"></h3>
+                <p id="modal-subtitle" class="text-gray-600"></p>
+            </div>
+
+            <div class="mb-6">
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Nom</label>
+                <input type="text" id="modal-nom" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Entrez le nom">
+            </div>
+
+            <div class="mb-6">
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Prénom</label>
+                <input type="text" id="modal-prenom" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Entrez le prénom">
+            </div>
+
+            <div class="mb-6">
+                <label class="block text-sm font-semibold text-gray-700 mb-3">Spécialités</label>
+                <div class="space-y-3">
+                    <label class="flex items-center space-x-3 cursor-pointer">
+                        <input type="checkbox" class="specialty-checkbox" data-specialty="mobilite-territoriale">
+                        <span class="text-gray-700">Mobilité territoriale</span>
+                    </label>
+                    <label class="flex items-center space-x-3 cursor-pointer">
+                        <input type="checkbox" class="specialty-checkbox" data-specialty="mobilite-internationale">
+                        <span class="text-gray-700">Mobilité internationale</span>
+                    </label>
+                    <label class="flex items-center space-x-3 cursor-pointer">
+                        <input type="checkbox" class="specialty-checkbox" data-specialty="transfrontalier">
+                        <span class="text-gray-700">Transfrontalier</span>
+                    </label>
+                    <label class="flex items-center space-x-3 cursor-pointer">
+                        <input type="checkbox" class="specialty-checkbox" data-specialty="ls4you">
+                        <span class="text-gray-700">LS4YOU</span>
+                    </label>
+                    <label class="flex items-center space-x-3 cursor-pointer">
+                        <input type="checkbox" class="specialty-checkbox" data-specialty="roaming">
+                        <span class="text-gray-700">ROAMING</span>
+                    </label>
+                    <label class="flex items-center space-x-3 cursor-pointer">
+                        <input type="checkbox" class="specialty-checkbox" data-specialty="citoyennete">
+                        <span class="text-gray-700">Citoyenneté</span>
+                    </label>
+                    <label class="flex items-center space-x-3 cursor-pointer">
+                        <input type="checkbox" class="specialty-checkbox" data-specialty="transition-sociale">
+                        <span class="text-gray-700">Transition sociale</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="mb-6">
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Détails et commentaires</label>
+                <textarea id="modal-commentaires" rows="4" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none" placeholder="Ajoutez des détails sur le profil, les missions spécifiques, les projets en cours..."></textarea>
+            </div>
+
+            <div class="flex justify-center">
+                <button onclick="closeModal()" class="bg-gray-500 text-white py-3 px-8 rounded-lg hover:bg-gray-600 transition-colors font-semibold">
+                    Fermer
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const profiles = {
+            'direction': {
+                title: 'DIRECTION',
+                subtitle: 'Direction générale',
+                avatar: 'DIR',
+                defaultSpecialties: []
+            },
+            'rio': {
+                title: 'COORDINATEUR',
+                subtitle: 'Innovation et Outillage',
+                avatar: 'CIO',
+                defaultSpecialties: ['mobilite-territoriale', 'mobilite-internationale', 'ls4you']
+            },
+            'labellisation': {
+                title: 'RESPONSABLE',
+                subtitle: 'Labellisation et Coaching',
+                avatar: 'LAB',
+                defaultSpecialties: ['citoyennete', 'transition-sociale']
+            },
+            'numerique': {
+                title: 'CHARGÉ DE PROJET',
+                subtitle: 'Citoyenneté Numérique',
+                avatar: 'NUM',
+                defaultSpecialties: ['citoyennete']
+            },
+            'transfrontalier': {
+                title: 'COORDINATEUR TRANSFRONTALIER',
+                subtitle: 'Coordination Transfrontalière (Éventuel)',
+                avatar: 'CTF',
+                defaultSpecialties: ['transfrontalier', 'mobilite-internationale']
+            },
+            'bab-nord': {
+                title: 'AMBASSADEUR BAB NORD',
+                subtitle: 'Territoire BAB Nord',
+                avatar: 'BN',
+                defaultSpecialties: ['mobilite-territoriale', 'ls4you']
+            },
+            'bab-sud': {
+                title: 'AMBASSADEUR BAB SUD',
+                subtitle: 'Territoire BAB Sud',
+                avatar: 'BS',
+                defaultSpecialties: ['mobilite-territoriale', 'roaming']
+            },
+            'sud-pb': {
+                title: 'AMBASSADEUR SUD PB',
+                subtitle: 'Territoire Sud Pays Basque',
+                avatar: 'SPB',
+                defaultSpecialties: ['mobilite-territoriale', 'transfrontalier']
+            },
+            'pbi': {
+                title: 'AMBASSADEUR PBI',
+                subtitle: 'Territoire PBI',
+                avatar: 'PBI',
+                defaultSpecialties: ['roaming', 'ls4you']
+            },
+            'conseiller-bab-nord': {
+                title: 'CONSEILLERS BAB NORD',
+                subtitle: 'Équipe Conseillers BAB Nord',
+                avatar: 'CBN',
+                defaultSpecialties: ['mobilite-territoriale']
+            },
+            'conseiller-bab-sud': {
+                title: 'CONSEILLERS BAB SUD',
+                subtitle: 'Équipe Conseillers BAB Sud',
+                avatar: 'CBS',
+                defaultSpecialties: ['mobilite-territoriale']
+            },
+            'conseiller-sud-pb': {
+                title: 'CONSEILLERS SUD PB',
+                subtitle: 'Équipe Conseillers Sud Pays Basque',
+                avatar: 'CSP',
+                defaultSpecialties: ['mobilite-territoriale', 'transfrontalier']
+            },
+            'conseiller-pbi': {
+                title: 'CONSEILLERS PBI',
+                subtitle: 'Équipe Conseillers PBI',
+                avatar: 'CPI',
+                defaultSpecialties: ['roaming']
+            }
+        };
+
+        let currentProfile = null;
+
+        function openModal(profileId) {
+            currentProfile = profileId;
+            const profile = profiles[profileId];
+            
+            document.getElementById('modal-title').textContent = profile.title;
+            document.getElementById('modal-subtitle').textContent = profile.subtitle;
+            document.getElementById('modal-avatar').textContent = profile.avatar;
+            
+            // Reset form
+            document.getElementById('modal-nom').value = '';
+            document.getElementById('modal-prenom').value = '';
+            document.getElementById('modal-commentaires').value = '';
+            
+            // Reset checkboxes
+            const checkboxes = document.querySelectorAll('.specialty-checkbox');
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = profile.defaultSpecialties.includes(checkbox.dataset.specialty);
+            });
+            
+            document.getElementById('modal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('modal').classList.remove('active');
+        }
+
+
+
+        // Fermer modal en cliquant à l'extérieur
+        document.getElementById('modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+
+        // Fermer modal avec Escape
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9773642900856ed9',t:'MTc1NjU0NzUwMy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
